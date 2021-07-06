@@ -19,7 +19,6 @@ Sample Input:
 /../
 Sample Output:
 /
- 
 """
 import sys
 
@@ -39,8 +38,6 @@ class MyTrip:
         if value.startswith(".") or value.startswith("\\"):
             return
 
-        if value in list("[`~,.<>;':\"\/\[\]\|{}()-=_+]"):
-            return
         self._root_list.append(value)
 
     @property

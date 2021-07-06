@@ -1,3 +1,4 @@
+# TODO
 """
 Дан json cо вложенной структурой. Необходимо убрать вложенность и конвертировать структуру данных в словарь без сложенных структур.
 На вход подается строка в формате json. На выходе ожидается полученный словарь. Словарь нужно выводить отсортированным по ключам. Например:
@@ -21,24 +22,8 @@ Sample Output:
 {'list.0': 1, 'list.1': 2, 'list.2': 3}
 
 """
-import os
 import json
-
-from collections import deque
-
-
-def depth(d):
-    """Узнаем глубину словаря"""
-    queue = deque([(id(d), d, 1)])
-    memo = set()
-    while queue:
-        id_, o, level = queue.popleft()
-        if id_ in memo:
-            continue
-        memo.add(id_)
-        if isinstance(o, dict):
-            queue += ((id(v), v, level + 1) for v in o.values())
-    return level
+import os
 
 
 def main():
