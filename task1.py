@@ -1,4 +1,3 @@
-# TODO
 """
 Дан json cо вложенной структурой. Необходимо убрать вложенность и конвертировать структуру данных в словарь без сложенных структур.
 На вход подается строка в формате json. На выходе ожидается полученный словарь. Словарь нужно выводить отсортированным по ключам. Например:
@@ -23,14 +22,27 @@ Sample Output:
 
 """
 import json
-import os
 
 
 def main():
-    json_str = os.system.read()
+    json_str = input()
     try:
-        json_obj = json.loads(json_str)
-        # ???????????
+        prev_result = {}
+        cur_result = json.loads(json_str)
+        while prev_result != cur_result:
+            prev_result = cur_result
+            cur_result = {}
+            for key in prev_result.keys():
+                if type(prev_result[key]) in [list, tuple] and len(prev_result[key]) != 0:
+                    for i in range(len(prev_result[key])):
+                        cur_result['.'.join([key, str(i)])] = prev_result[key][i]
+                    continue
+                if type(prev_result[key]) == dict and prev_result[key] != {}:
+                    for small_key in prev_result[key].keys():
+                        cur_result['.'.join([key, str(small_key)])] = prev_result[key][small_key]
+                    continue
+                cur_result[key] = prev_result[key]
+        print(cur_result)
     except json.decoder.JSONDecodeError:
         print("{}")
         return
