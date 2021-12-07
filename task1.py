@@ -29,24 +29,56 @@ def main():
     try:
         prev_result = {}
         cur_result = json.loads(json_str)
+
         while prev_result != cur_result:
+
             prev_result = cur_result
             cur_result = {}
+            
             for key in prev_result.keys():
+
+                #Если по ключу у нас list/tuple и значение не пустое
                 if type(prev_result[key]) in [list, tuple] and len(prev_result[key]) != 0:
+                    
+                    #То запускаем цикл по всем элементам вложенной коллекции
                     for i in range(len(prev_result[key])):
-                        cur_result['.'.join([key, str(i)])] = prev_result[key][i]
+
+                        #Получаем текущий элемент коллекции через индекс
+                        current_element = prev_result[key][i]
+                        
+                        #Формируем новый ключ на основе ключа и индекса элемента коллекции
+                        new_key = '.'.join([key, str(i)])
+                        
+                        #Присваиваем новый ключ и значение словарю
+                        cur_result[new_key] = current_element
+                    
                     continue
+
+                #Если присутствует вложенный словарь и он не пустой
                 if type(prev_result[key]) == dict and prev_result[key] != {}:
-                    for small_key in prev_result[key].keys():
-                        cur_result['.'.join([key, str(small_key)])] = prev_result[key][small_key]
+
+                    #Итерируемся по ключам вложенного словаря
+                    for sub_key in prev_result[key].keys():
+
+                        #Получаем текущий элемент коллекции через sub_key
+                        current_element = prev_result[key][sub_key]
+
+                        # Формируем новый ключ на основе ключа и sub_key
+                        new_key = '.'.join([key, str(sub_key)])
+
+                        #Присваиваем новый ключ и значение словарю
+                        cur_result[new_key] = current_element
+                    
                     continue
+                
                 cur_result[key] = prev_result[key]
+        
         print(cur_result)
+
+    #Если на вход некорректный json
     except json.decoder.JSONDecodeError:
         print("{}")
         return
-
 
 if __name__ == "__main__":
     main()
